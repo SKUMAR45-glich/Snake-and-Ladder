@@ -6,7 +6,9 @@ namespace start
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("At start position that is 0");
+            Random random = new Random();
+            int no_on_die = random.Next(1,7);
+            Console.WriteLine("Number on die is" + no_on_die);
         }
     }
 }
