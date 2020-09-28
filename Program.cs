@@ -9,8 +9,8 @@ namespace start
         static void Main(string[] args)
         {
             //public const no_play = 1;
-            //public const ladder = 2;
-            public const snake = 3;
+            public const ladder = 2;
+            //public const snake = 3;
             Random random = new Random();
             int option = Random(1, 4);
             /*switch(option)
@@ -28,11 +28,11 @@ namespace start
                        Console.WriteLine("Roll the die");
                        break;
             }*/
-            if (option == snake)
+            if (option == ladder)
             {
                   int die = Random(1, 7);
-                  int curr_pos = Random(0, 101);
-                  if (((curr_pos)-(die))<0)
+                  int curr_pos = Random(1, 101);
+                  if (((curr_pos)+(die))<0)
                   {
                        curr_pos = 0;
                   }
