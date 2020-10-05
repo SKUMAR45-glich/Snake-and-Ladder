@@ -1,98 +1,98 @@
-﻿using System;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
+using System;
 
-namespace start
+namespace SnakeLadderGame
 {
     class Program
     {
         static void Main(string[] args)
         {
-            public const no_play = 1;
-            public const ladder = 2;
-            public const snake = 3;
-            int curr_pos1 = 0;
-            int curr_pos2 = 0;
+            Console.WriteLine("Welcome to Snake and Ladder Game");
+
+            int player1Score, player2Score;
+
+            player1Score = 0;
+            player2Score = 0;
+            Console.WriteLine("Initial Player Score : " + player1Score);
+
+            DiceRolledToWin(ref player1Score, ref player2Score);
+            if (player1Score > player2Score)
+                Console.WriteLine("1st Player Won the Match");
+            else
+                Console.WriteLine("2nd Player Won the Match");
+            
+
+           
+
+        }
+
+        static int RollTheDie()
+        {
             Random random = new Random();
-            int player = 1;
-            int player = 2;
-            int sum = 0;
-            while(player ==1)
+            int score = random.Next(1, 7);
+            return score;
+        }
+
+        static string CheckOptions()
+        {
+            string[] options = new string[3] { "NoPlay", "Ladder", "Snake" };
+            int idx;
+
+            Random random = new Random();
+            idx = random.Next(0, 3);
+
+            return options[idx];
+        }
+
+        static void DiceRolledToWin(ref int player1Score, ref int player2Score)
+        {
+            bool isLadder;
+            while (player1Score != 100 && player2Score != 100)
             {
-                int die = Random(1, 7);
-                int option = Random(1, 4);
-                switch(option)
-                {
-                    case no_play:
-                         //Console.WriteLine("No Play");
-                         player =2;
-                         break;
-                    case ladder:
-                         curr_pos1 = curr_pos1 + die;
-                         //Console.WriteLine("Current Position"+curr_pos);
-                         if (curr_pos1>100)
-                         {
-                              curr_pos1 = 100;
-                         }
-    //sum++;
-                         break;
-                    case snake:
-                         curr_pos1 = curr_pos1 - die;
-                         //Console.WriteLine("Current Position"+curr_pos);
-                         if (curr_pos1<0)
-                         {
-                              curr_pos1 = 0;
-                         }
-//sum++;                 
-                         player=2;
-                         break;
-                   default:
-                         Console.WriteLine("Roll the die");
-                         break;
-                }
+                isLadder = true;
+                while (isLadder)
+                    isLadder = RollAndPlay(ref player1Score);
+                isLadder = true;
+                while (isLadder)
+                    isLadder = RollAndPlay(ref player2Score);
+
+                Console.WriteLine("Current Score of 1st Player is " + player1Score);
+                Console.WriteLine("Current Score of 2nd Player is " + player2Score);
             }
-            while (player == 2)
+
+            return;
+        }
+
+        static bool RollAndPlay(ref int score)
+        {
+            int currentScore;
+            currentScore = RollTheDie();
+
+            string option;
+            option = CheckOptions();
+
+            switch (option)
             {
-                      int die = Random(1, 7);
-                      int option = Random(1, 4);
-                      switch (option)
-                      {
-                             case no_play:
-            //Console.WriteLine("No Play");
-                             player = 2;
-                             break;
-                      case ladder:
-                             curr_pos2 = curr_pos2 + die;
-            //Console.WriteLine("Current Position"+curr_pos);
-                             if (curr_pos2 > 100)
-                             {
-                                    curr_pos2 = 100;
-                             }
-            //sum++;
-                             break;
-                      case snake:
-                             curr_pos2 = curr_pos2 - die;
-            //Console.WriteLine("Current Position"+curr_pos);
-                             if (curr_pos2 < 0)
-                             {
-                                   curr_pos2 = 0;
-                             }
-            //sum++;                 
-                             player = 1;
-                             break;
-                      default:
-                             Console.WriteLine("Roll the die");
-                             break;
-                }
-                if (curr_pos1 == 100)
-                {
-                       Console.WriteLine("Winner is Player1");
-                }
-                else if(curr_pos2==100)
-                {
-                       Console.WriteLine("Winner is Player2");
-                }
-            }    
+                case "NoPlay":
+                    break;
+                case "Ladder":
+                    score += currentScore;
+                    if (score > 100)
+                        score -= currentScore;
+                    break;
+                case "Snake":
+                    score -= currentScore;
+                    break;
+                default:
+                    break;
+            }
+
+            if (score < 0)
+                score = 0;
+
+            if (option == "Ladder")
+                return true;
+            else
+                return false;
         }
     }
 }
